@@ -294,6 +294,7 @@ impl Field for Fp2 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::to_limb;
 
     use rand_core::SeedableRng;
     use rand_xorshift::XorShiftRng;
@@ -853,20 +854,20 @@ mod tests {
         // a = 1488924004771393321054797166853618474668089414631333405711627789629391903630694737978065425271543178763948256226639*u + 784063022264861764559335808165825052288770346101304131934508881646553551234697082295473567906267937225174620141295
         let a = Fp2::new(
             Fp::from_raw_unchecked([
-                0x2bee_d146_27d7_f9e9,
-                0xb661_4e06_660e_5dce,
-                0x06c4_cc7c_2f91_d42c,
-                0x996d_7847_4b7a_63cc,
-                0xebae_bc4c_820d_574e,
-                0x1886_5e12_d93f_d845,
+                to_limb(0x2bee_d146_27d7_f9e9),
+                to_limb(0xb661_4e06_660e_5dce),
+                to_limb(0x06c4_cc7c_2f91_d42c),
+                to_limb(0x996d_7847_4b7a_63cc),
+                to_limb(0xebae_bc4c_820d_574e),
+                to_limb(0x1886_5e12_d93f_d845),
             ]),
             Fp::from_raw_unchecked([
-                0x7d82_8664_baf4_f566,
-                0xd17e_6639_96ec_7339,
-                0x679e_ad55_cb40_78d0,
-                0xfe3b_2260_e001_ec28,
-                0x3059_93d0_43d9_1b68,
-                0x0626_f03c_0489_b72d,
+                to_limb(0x7d82_8664_baf4_f566),
+                to_limb(0xd17e_6639_96ec_7339),
+                to_limb(0x679e_ad55_cb40_78d0),
+                to_limb(0xfe3b_2260_e001_ec28),
+                to_limb(0x3059_93d0_43d9_1b68),
+                to_limb(0x0626_f03c_0489_b72d),
             ]),
         );
 
@@ -876,12 +877,12 @@ mod tests {
         // multiplicative subgroup
         let b = Fp2::new(
             Fp::from_raw_unchecked([
-                0x6631_0000_0010_5545,
-                0x2114_0040_0eec_000d,
-                0x3fa7_af30_c820_e316,
-                0xc52a_8b8d_6387_695d,
-                0x9fb4_e61d_1e83_eac5,
-                0x005c_b922_afe8_4dc7,
+                to_limb(0x6631_0000_0010_5545),
+                to_limb(0x2114_0040_0eec_000d),
+                to_limb(0x3fa7_af30_c820_e316),
+                to_limb(0xc52a_8b8d_6387_695d),
+                to_limb(0x9fb4_e61d_1e83_eac5),
+                to_limb(0x005c_b922_afe8_4dc7),
             ]),
             Fp::zero(),
         );
@@ -892,12 +893,12 @@ mod tests {
         // multiplicative subgroup
         let c = Fp2::new(
             Fp::from_raw_unchecked([
-                0x44f6_0000_0051_ffae,
-                0x86b8_0141_9948_0043,
-                0xd715_9952_f1f3_794a,
-                0x755d_6e3d_fe1f_fc12,
-                0xd36c_d6db_5547_e905,
-                0x02f8_c8ec_bf18_67bb,
+                to_limb(0x44f6_0000_0051_ffae),
+                to_limb(0x86b8_0141_9948_0043),
+                to_limb(0xd715_9952_f1f3_794a),
+                to_limb(0x755d_6e3d_fe1f_fc12),
+                to_limb(0xd36c_d6db_5547_e905),
+                to_limb(0x02f8_c8ec_bf18_67bb),
             ]),
             Fp::zero(),
         );
@@ -909,20 +910,20 @@ mod tests {
         assert!(bool::from(
             Fp2::new(
                 Fp::from_raw_unchecked([
-                    0xc5fa_1bc8_fd00_d7f6,
-                    0x3830_ca45_4606_003b,
-                    0x2b28_7f11_04b1_02da,
-                    0xa7fb_30f2_8230_f23e,
-                    0x339c_db9e_e953_dbf0,
-                    0x0d78_ec51_d989_fc57,
+                    to_limb(0xc5fa_1bc8_fd00_d7f6),
+                    to_limb(0x3830_ca45_4606_003b),
+                    to_limb(0x2b28_7f11_04b1_02da),
+                    to_limb(0xa7fb_30f2_8230_f23e),
+                    to_limb(0x339c_db9e_e953_dbf0),
+                    to_limb(0x0d78_ec51_d989_fc57),
                 ]),
                 Fp::from_raw_unchecked([
-                    0x27ec_4898_cf87_f613,
-                    0x9de1_394e_1abb_05a5,
-                    0x0947_f85d_c170_fc14,
-                    0x586f_bc69_6b61_14b7,
-                    0x2b34_75a4_077d_7169,
-                    0x13e1_c895_cc4b_6c22,
+                    to_limb(0x27ec_4898_cf87_f613),
+                    to_limb(0x9de1_394e_1abb_05a5),
+                    to_limb(0x0947_f85d_c170_fc14),
+                    to_limb(0x586f_bc69_6b61_14b7),
+                    to_limb(0x2b34_75a4_077d_7169),
+                    to_limb(0x13e1_c895_cc4b_6c22),
                 ])
             )
             .sqrt()

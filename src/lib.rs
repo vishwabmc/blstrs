@@ -6,9 +6,6 @@
 #![allow(clippy::many_single_char_names)]
 #![allow(clippy::wrong_self_convention)]
 
-#[cfg(not(target_endian = "little"))]
-compile_error!("blstrs is only supported on little endian architectures");
-
 #[macro_use]
 mod macros;
 
@@ -105,6 +102,21 @@ fn u64_to_u32(limbs: &[u64]) -> Vec<u32> {
         .iter()
         .flat_map(|limb| vec![(limb & 0xFFFF_FFFF) as u32, (limb >> 32) as u32])
         .collect()
+}
+
+// s390x is a 64-bit platform, but blst chooses a 32-bit limb type
+// internally since it uses the no-assembler fallback.  However, the
+// blst Rust binding still hard-codes u64 as limb type.  This causes
+// a mismatch since the platform is big-endian.  Compensate for
+// this by swapping words of u64 limb literals.  FIXME: This should
+// instead be handled correctly in blst.
+#[cfg(target_arch = "s390x")]
+const fn to_limb(l: u64) -> u64 {
+    (l & 0xffff_ffff) << 32 | ((l >> 32) & 0xffff_ffff)
+}
+#[cfg(not(target_arch = "s390x"))]
+const fn to_limb(l: u64) -> u64 {
+    l
 }
 
 #[test]

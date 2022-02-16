@@ -820,6 +820,7 @@ mod tests {
     #![allow(clippy::eq_op)]
 
     use super::*;
+    use crate::to_limb;
 
     use ff::Field;
     use rand_core::SeedableRng;
@@ -895,12 +896,12 @@ mod tests {
         assert_eq!(G1Affine::generator().is_on_curve().unwrap_u8(), 1);
 
         let z = Fp::from_raw_unchecked([
-            0xba7afa1f9a6fe250,
-            0xfa0f5b595eafe731,
-            0x3bdc477694c306e7,
-            0x2149be4b3949fa24,
-            0x64aa6e0649b2078c,
-            0x12b108ac33643c3e,
+            to_limb(0xba7afa1f9a6fe250),
+            to_limb(0xfa0f5b595eafe731),
+            to_limb(0x3bdc477694c306e7),
+            to_limb(0x2149be4b3949fa24),
+            to_limb(0x64aa6e0649b2078c),
+            to_limb(0x12b108ac33643c3e),
         ]);
 
         let gen = G1Affine::generator();
@@ -935,12 +936,12 @@ mod tests {
         assert_ne!(b, a);
 
         let z = Fp::from_raw_unchecked([
-            0xba7afa1f9a6fe250,
-            0xfa0f5b595eafe731,
-            0x3bdc477694c306e7,
-            0x2149be4b3949fa24,
-            0x64aa6e0649b2078c,
-            0x12b108ac33643c3e,
+            to_limb(0xba7afa1f9a6fe250),
+            to_limb(0xfa0f5b595eafe731),
+            to_limb(0x3bdc477694c306e7),
+            to_limb(0x2149be4b3949fa24),
+            to_limb(0x64aa6e0649b2078c),
+            to_limb(0x12b108ac33643c3e),
         ]);
 
         let z2 = z.square();
@@ -979,12 +980,12 @@ mod tests {
         assert_eq!(G1Affine::from(b).is_identity().unwrap_u8(), 1);
 
         let z = Fp::from_raw_unchecked([
-            0xba7afa1f9a6fe250,
-            0xfa0f5b595eafe731,
-            0x3bdc477694c306e7,
-            0x2149be4b3949fa24,
-            0x64aa6e0649b2078c,
-            0x12b108ac33643c3e,
+            to_limb(0xba7afa1f9a6fe250),
+            to_limb(0xfa0f5b595eafe731),
+            to_limb(0x3bdc477694c306e7),
+            to_limb(0x2149be4b3949fa24),
+            to_limb(0x64aa6e0649b2078c),
+            to_limb(0x12b108ac33643c3e),
         ]);
 
         let z2 = z.square();
@@ -1020,20 +1021,20 @@ mod tests {
                 G1Affine::from(tmp),
                 G1Affine::from_raw_unchecked(
                     Fp::from_raw_unchecked([
-                        0x53e978ce58a9ba3c,
-                        0x3ea0583c4f3d65f9,
-                        0x4d20bb47f0012960,
-                        0xa54c664ae5b2b5d9,
-                        0x26b552a39d7eb21f,
-                        0x8895d26e68785
+                        to_limb(0x53e978ce58a9ba3c),
+                        to_limb(0x3ea0583c4f3d65f9),
+                        to_limb(0x4d20bb47f0012960),
+                        to_limb(0xa54c664ae5b2b5d9),
+                        to_limb(0x26b552a39d7eb21f),
+                        to_limb(0x8895d26e68785),
                     ]),
                     Fp::from_raw_unchecked([
-                        0x70110b3298293940,
-                        0xda33c5393f1f6afc,
-                        0xb86edfd16a5aa785,
-                        0xaec6d1c9e7b1c895,
-                        0x25cfc2b522d11720,
-                        0x6361c83f8d09b15
+                        to_limb(0x70110b3298293940),
+                        to_limb(0xda33c5393f1f6afc),
+                        to_limb(0xb86edfd16a5aa785),
+                        to_limb(0xaec6d1c9e7b1c895),
+                        to_limb(0x25cfc2b522d11720),
+                        to_limb(0x6361c83f8d09b15),
                     ]),
                     false
                 )
@@ -1055,12 +1056,12 @@ mod tests {
             let mut b = G1Projective::generator();
             {
                 let z = Fp::from_raw_unchecked([
-                    0xba7afa1f9a6fe250,
-                    0xfa0f5b595eafe731,
-                    0x3bdc477694c306e7,
-                    0x2149be4b3949fa24,
-                    0x64aa6e0649b2078c,
-                    0x12b108ac33643c3e,
+                    to_limb(0xba7afa1f9a6fe250),
+                    to_limb(0xfa0f5b595eafe731),
+                    to_limb(0x3bdc477694c306e7),
+                    to_limb(0x2149be4b3949fa24),
+                    to_limb(0x64aa6e0649b2078c),
+                    to_limb(0x12b108ac33643c3e),
                 ]);
 
                 let z2 = z.square();
@@ -1076,12 +1077,12 @@ mod tests {
             let mut b = G1Projective::generator();
             {
                 let z = Fp::from_raw_unchecked([
-                    0xba7afa1f9a6fe250,
-                    0xfa0f5b595eafe731,
-                    0x3bdc477694c306e7,
-                    0x2149be4b3949fa24,
-                    0x64aa6e0649b2078c,
-                    0x12b108ac33643c3e,
+                    to_limb(0xba7afa1f9a6fe250),
+                    to_limb(0xfa0f5b595eafe731),
+                    to_limb(0x3bdc477694c306e7),
+                    to_limb(0x2149be4b3949fa24),
+                    to_limb(0x64aa6e0649b2078c),
+                    to_limb(0x12b108ac33643c3e),
                 ]);
 
                 let z2 = z.square();
@@ -1111,12 +1112,12 @@ mod tests {
         // Degenerate case
         {
             let mut beta = Fp::from_raw_unchecked([
-                0xcd03c9e48671f071,
-                0x5dab22461fcda5d2,
-                0x587042afd3851b95,
-                0x8eb60ebe01bacb9e,
-                0x3f97d6e83d050d2,
-                0x18f0206554638741,
+                to_limb(0xcd03c9e48671f071),
+                to_limb(0x5dab22461fcda5d2),
+                to_limb(0x587042afd3851b95),
+                to_limb(0x8eb60ebe01bacb9e),
+                to_limb(0x3f97d6e83d050d2),
+                to_limb(0x18f0206554638741),
             ]);
             beta = beta.square();
             let a = G1Projective::generator().double().double();
@@ -1129,20 +1130,20 @@ mod tests {
                 G1Affine::from(c),
                 G1Affine::from(G1Projective::from_raw_unchecked(
                     Fp::from_raw_unchecked([
-                        0x29e1e987ef68f2d0,
-                        0xc5f3ec531db03233,
-                        0xacd6c4b6ca19730f,
-                        0x18ad9e827bc2bab7,
-                        0x46e3b2c5785cc7a9,
-                        0x7e571d42d22ddd6
+                        to_limb(0x29e1e987ef68f2d0),
+                        to_limb(0xc5f3ec531db03233),
+                        to_limb(0xacd6c4b6ca19730f),
+                        to_limb(0x18ad9e827bc2bab7),
+                        to_limb(0x46e3b2c5785cc7a9),
+                        to_limb(0x7e571d42d22ddd6),
                     ]),
                     Fp::from_raw_unchecked([
-                        0x94d117a7e5a539e7,
-                        0x8e17ef673d4b5d22,
-                        0x9d746aaf508a33ea,
-                        0x8c6d883d2516c9a2,
-                        0xbc3b8d5fb0447f7,
-                        0x7bfa4c7210f4f44
+                        to_limb(0x94d117a7e5a539e7),
+                        to_limb(0x8e17ef673d4b5d22),
+                        to_limb(0x9d746aaf508a33ea),
+                        to_limb(0x8c6d883d2516c9a2),
+                        to_limb(0xbc3b8d5fb0447f7),
+                        to_limb(0x7bfa4c7210f4f44),
                     ]),
                     Fp::one(),
                 ))
@@ -1166,12 +1167,12 @@ mod tests {
             let mut b = G1Projective::generator();
             {
                 let z = Fp::from_raw_unchecked([
-                    0xba7afa1f9a6fe250,
-                    0xfa0f5b595eafe731,
-                    0x3bdc477694c306e7,
-                    0x2149be4b3949fa24,
-                    0x64aa6e0649b2078c,
-                    0x12b108ac33643c3e,
+                    to_limb(0xba7afa1f9a6fe250),
+                    to_limb(0xfa0f5b595eafe731),
+                    to_limb(0x3bdc477694c306e7),
+                    to_limb(0x2149be4b3949fa24),
+                    to_limb(0x64aa6e0649b2078c),
+                    to_limb(0x12b108ac33643c3e),
                 ]);
 
                 let z2 = z.square();
@@ -1187,12 +1188,12 @@ mod tests {
             let mut b = G1Projective::generator();
             {
                 let z = Fp::from_raw_unchecked([
-                    0xba7afa1f9a6fe250,
-                    0xfa0f5b595eafe731,
-                    0x3bdc477694c306e7,
-                    0x2149be4b3949fa24,
-                    0x64aa6e0649b2078c,
-                    0x12b108ac33643c3e,
+                    to_limb(0xba7afa1f9a6fe250),
+                    to_limb(0xfa0f5b595eafe731),
+                    to_limb(0x3bdc477694c306e7),
+                    to_limb(0x2149be4b3949fa24),
+                    to_limb(0x64aa6e0649b2078c),
+                    to_limb(0x12b108ac33643c3e),
                 ]);
 
                 let z2 = z.square();
@@ -1222,12 +1223,12 @@ mod tests {
         // Degenerate case
         {
             let mut beta = Fp::from_raw_unchecked([
-                0xcd03c9e48671f071,
-                0x5dab22461fcda5d2,
-                0x587042afd3851b95,
-                0x8eb60ebe01bacb9e,
-                0x3f97d6e83d050d2,
-                0x18f0206554638741,
+                to_limb(0xcd03c9e48671f071),
+                to_limb(0x5dab22461fcda5d2),
+                to_limb(0x587042afd3851b95),
+                to_limb(0x8eb60ebe01bacb9e),
+                to_limb(0x3f97d6e83d050d2),
+                to_limb(0x18f0206554638741),
             ]);
             beta = beta.square();
             let a = G1Projective::generator().double().double();
@@ -1241,20 +1242,20 @@ mod tests {
                 G1Affine::from(c),
                 G1Affine::from(G1Projective::from_raw_unchecked(
                     Fp::from_raw_unchecked([
-                        0x29e1e987ef68f2d0,
-                        0xc5f3ec531db03233,
-                        0xacd6c4b6ca19730f,
-                        0x18ad9e827bc2bab7,
-                        0x46e3b2c5785cc7a9,
-                        0x7e571d42d22ddd6
+                        to_limb(0x29e1e987ef68f2d0),
+                        to_limb(0xc5f3ec531db03233),
+                        to_limb(0xacd6c4b6ca19730f),
+                        to_limb(0x18ad9e827bc2bab7),
+                        to_limb(0x46e3b2c5785cc7a9),
+                        to_limb(0x7e571d42d22ddd6),
                     ]),
                     Fp::from_raw_unchecked([
-                        0x94d117a7e5a539e7,
-                        0x8e17ef673d4b5d22,
-                        0x9d746aaf508a33ea,
-                        0x8c6d883d2516c9a2,
-                        0xbc3b8d5fb0447f7,
-                        0x7bfa4c7210f4f44
+                        to_limb(0x94d117a7e5a539e7),
+                        to_limb(0x8e17ef673d4b5d22),
+                        to_limb(0x9d746aaf508a33ea),
+                        to_limb(0x8c6d883d2516c9a2),
+                        to_limb(0xbc3b8d5fb0447f7),
+                        to_limb(0x7bfa4c7210f4f44),
                     ]),
                     Fp::one()
                 ))
@@ -1283,18 +1284,18 @@ mod tests {
         let g = G1Projective::generator();
         let a = Scalar(blst::blst_fr {
             l: [
-                0x2b568297a56da71c,
-                0xd8c39ecb0ef375d1,
-                0x435c38da67bfbf96,
-                0x8088a05026b659b2,
+                to_limb(0x2b568297a56da71c),
+                to_limb(0xd8c39ecb0ef375d1),
+                to_limb(0x435c38da67bfbf96),
+                to_limb(0x8088a05026b659b2),
             ],
         });
         let b = Scalar(blst_fr {
             l: [
-                0x785fdd9b26ef8b85,
-                0xc997f25837695c18,
-                0x4c8dbc39e7b756c1,
-                0x70d9b6cc6d87df20,
+                to_limb(0x785fdd9b26ef8b85),
+                to_limb(0xc997f25837695c18),
+                to_limb(0x4c8dbc39e7b756c1),
+                to_limb(0x70d9b6cc6d87df20),
             ],
         });
         let c = a * b;
@@ -1307,18 +1308,18 @@ mod tests {
         let g = G1Affine::generator();
         let a = Scalar(blst::blst_fr {
             l: [
-                0x2b568297a56da71c,
-                0xd8c39ecb0ef375d1,
-                0x435c38da67bfbf96,
-                0x8088a05026b659b2,
+                to_limb(0x2b568297a56da71c),
+                to_limb(0xd8c39ecb0ef375d1),
+                to_limb(0x435c38da67bfbf96),
+                to_limb(0x8088a05026b659b2),
             ],
         });
         let b = Scalar(blst::blst_fr {
             l: [
-                0x785fdd9b26ef8b85,
-                0xc997f25837695c18,
-                0x4c8dbc39e7b756c1,
-                0x70d9b6cc6d87df20,
+                to_limb(0x785fdd9b26ef8b85),
+                to_limb(0xc997f25837695c18),
+                to_limb(0x4c8dbc39e7b756c1),
+                to_limb(0x70d9b6cc6d87df20),
             ],
         });
         let c = a * b;

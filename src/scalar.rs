@@ -14,6 +14,8 @@ use ff::{Field, FieldBits, PrimeField, PrimeFieldBits};
 use rand_core::RngCore;
 use subtle::{Choice, ConditionallySelectable, ConstantTimeEq, CtOption};
 
+use crate::to_limb;
+
 /// Represents an element of the scalar field $\mathbb{F}_q$ of the BLS12-381 elliptic
 /// curve construction.
 ///
@@ -25,10 +27,10 @@ pub struct Scalar(pub(crate) blst_fr);
 // GENERATOR = 7 (multiplicative generator of r-1 order, that is also quadratic nonresidue)
 const GENERATOR: Scalar = Scalar(blst_fr {
     l: [
-        0x0000_000e_ffff_fff1,
-        0x17e3_63d3_0018_9c0f,
-        0xff9c_5787_6f84_57b0,
-        0x3513_3220_8fc5_a8c4,
+        to_limb(0x0000_000e_ffff_fff1),
+        to_limb(0x17e3_63d3_0018_9c0f),
+        to_limb(0xff9c_5787_6f84_57b0),
+        to_limb(0x3513_3220_8fc5_a8c4),
     ],
 });
 
@@ -63,10 +65,10 @@ const MODULUS_REPR: [u8; 32] = [
 // `2^S` root of unity in little-endian Montgomery form.
 const ROOT_OF_UNITY: Scalar = Scalar(blst_fr {
     l: [
-        0xb9b5_8d8c_5f0e_466a,
-        0x5b1b_4c80_1819_d7ec,
-        0x0af5_3ae3_52a3_1e64,
-        0x5bf3_adda_19e9_b27b,
+        to_limb(0xb9b5_8d8c_5f0e_466a),
+        to_limb(0x5b1b_4c80_1819_d7ec),
+        to_limb(0x0af5_3ae3_52a3_1e64),
+        to_limb(0x5bf3_adda_19e9_b27b),
     ],
 });
 
@@ -79,10 +81,10 @@ const ZERO: Scalar = Scalar(blst_fr { l: [0, 0, 0, 0] });
 /// sage> 0x1824b159acc5056f998c4fefecbc4ff55884b7fa0003480200000001fffffffe
 const R: Scalar = Scalar(blst_fr {
     l: [
-        0x0000_0001_ffff_fffe,
-        0x5884_b7fa_0003_4802,
-        0x998c_4fef_ecbc_4ff5,
-        0x1824_b159_acc5_056f,
+        to_limb(0x0000_0001_ffff_fffe),
+        to_limb(0x5884_b7fa_0003_4802),
+        to_limb(0x998c_4fef_ecbc_4ff5),
+        to_limb(0x1824_b159_acc5_056f),
     ],
 });
 
@@ -93,10 +95,10 @@ const R: Scalar = Scalar(blst_fr {
 #[allow(dead_code)]
 const R2: Scalar = Scalar(blst_fr {
     l: [
-        0xc999_e990_f3f2_9c6d,
-        0x2b6c_edcb_8792_5c23,
-        0x05d3_1496_7254_398f,
-        0x0748_d9d9_9f59_ff11,
+        to_limb(0xc999_e990_f3f2_9c6d),
+        to_limb(0x2b6c_edcb_8792_5c23),
+        to_limb(0x05d3_1496_7254_398f),
+        to_limb(0x0748_d9d9_9f59_ff11),
     ],
 });
 
@@ -552,6 +554,9 @@ impl Scalar {
     pub fn to_bytes_le(&self) -> [u8; 32] {
         let mut out = [0u64; 4];
         unsafe { blst_uint64_from_fr(out.as_mut_ptr(), &self.0) };
+        for x in &mut out {
+            *x = x.to_le();
+        }
         out.as_byte_slice().try_into().unwrap()
     }
 
@@ -679,10 +684,10 @@ mod tests {
 
     const LARGEST: Scalar = Scalar(blst::blst_fr {
         l: [
-            0xffffffff00000000,
-            0x53bda402fffe5bfe,
-            0x3339d80809a1d805,
-            0x73eda753299d7d48,
+            to_limb(0xffffffff00000000),
+            to_limb(0x53bda402fffe5bfe),
+            to_limb(0x3339d80809a1d805),
+            to_limb(0x73eda753299d7d48),
         ],
     });
 
@@ -843,16 +848,18 @@ mod tests {
             tmp,
             Scalar(blst::blst_fr {
                 l: [
-                    0xfffffffeffffffff,
-                    0x53bda402fffe5bfe,
-                    0x3339d80809a1d805,
-                    0x73eda753299d7d48
+                    to_limb(0xfffffffeffffffff),
+                    to_limb(0x53bda402fffe5bfe),
+                    to_limb(0x3339d80809a1d805),
+                    to_limb(0x73eda753299d7d48),
                 ]
             })
         );
 
         let mut tmp = LARGEST;
-        tmp += &Scalar(blst::blst_fr { l: [1, 0, 0, 0] });
+        tmp += &Scalar(blst::blst_fr {
+            l: [to_limb(1), 0, 0, 0],
+        });
 
         assert_eq!(tmp, Scalar::zero());
     }
@@ -861,11 +868,18 @@ mod tests {
     fn test_negation() {
         let tmp = -&LARGEST;
 
-        assert_eq!(tmp, Scalar(blst::blst_fr { l: [1, 0, 0, 0] }));
+        assert_eq!(
+            tmp,
+            Scalar(blst::blst_fr {
+                l: [to_limb(1), 0, 0, 0]
+            })
+        );
 
         let tmp = -&Scalar::zero();
         assert_eq!(tmp, Scalar::zero());
-        let tmp = -&Scalar(blst::blst_fr { l: [1, 0, 0, 0] });
+        let tmp = -&Scalar(blst::blst_fr {
+            l: [to_limb(1), 0, 0, 0],
+        });
         assert_eq!(tmp, LARGEST);
 
         {
@@ -901,7 +915,14 @@ mod tests {
         let mut tmp = Scalar::zero();
         tmp -= &LARGEST;
 
-        let mut tmp2 = Scalar(blst::blst_fr { l: MODULUS });
+        let mut tmp2 = Scalar(blst::blst_fr {
+            l: [
+                to_limb(MODULUS[0]),
+                to_limb(MODULUS[1]),
+                to_limb(MODULUS[2]),
+                to_limb(MODULUS[3]),
+            ],
+        });
         tmp2 -= &LARGEST;
 
         assert_eq!(tmp, tmp2);
@@ -911,27 +932,27 @@ mod tests {
     fn test_multiplication() {
         let mut tmp = Scalar(blst::blst_fr {
             l: [
-                0x6b7e9b8faeefc81a,
-                0xe30a8463f348ba42,
-                0xeff3cb67a8279c9c,
-                0x3d303651bd7c774d,
+                to_limb(0x6b7e9b8faeefc81a),
+                to_limb(0xe30a8463f348ba42),
+                to_limb(0xeff3cb67a8279c9c),
+                to_limb(0x3d303651bd7c774d),
             ],
         });
         tmp *= &Scalar(blst::blst_fr {
             l: [
-                0x13ae28e3bc35ebeb,
-                0xa10f4488075cae2c,
-                0x8160e95a853c3b5d,
-                0x5ae3f03b561a841d,
+                to_limb(0x13ae28e3bc35ebeb),
+                to_limb(0xa10f4488075cae2c),
+                to_limb(0x8160e95a853c3b5d),
+                to_limb(0x5ae3f03b561a841d),
             ],
         });
         assert!(
             tmp == Scalar(blst::blst_fr {
                 l: [
-                    0x23717213ce710f71,
-                    0xdbee1fe53a16e1af,
-                    0xf565d3e1c2a48000,
-                    0x4426507ee75df9d7
+                    to_limb(0x23717213ce710f71),
+                    to_limb(0xdbee1fe53a16e1af),
+                    to_limb(0xf565d3e1c2a48000),
+                    to_limb(0x4426507ee75df9d7),
                 ]
             })
         );
@@ -1013,10 +1034,10 @@ mod tests {
 
         let mut square = Scalar(blst::blst_fr {
             l: [
-                0x46cd85a5f273077e,
-                0x1d30c47dd68fc735,
-                0x77f656f60beca0eb,
-                0x494aa01bdf32468d,
+                to_limb(0x46cd85a5f273077e),
+                to_limb(0x1d30c47dd68fc735),
+                to_limb(0x77f656f60beca0eb),
+                to_limb(0x494aa01bdf32468d),
             ],
         });
 
@@ -1156,10 +1177,10 @@ mod tests {
             // Random number
             let mut tmp = Scalar(blst::blst_fr {
                 l: [
-                    0x437ce7616d580765,
-                    0xd42d1ccb29d1235b,
-                    0xed8f753821bd1423,
-                    0x4eede1c9c89528ca,
+                    to_limb(0x437ce7616d580765),
+                    to_limb(0xd42d1ccb29d1235b),
+                    to_limb(0xed8f753821bd1423),
+                    to_limb(0x4eede1c9c89528ca),
                 ],
             });
             // assert!(tmp.is_valid());
@@ -1169,87 +1190,93 @@ mod tests {
                 tmp,
                 Scalar(blst::blst_fr {
                     l: [
-                        0x437ce7616d580765,
-                        0xd42d1ccb29d1235b,
-                        0xed8f753821bd1423,
-                        0x4eede1c9c89528ca
+                        to_limb(0x437ce7616d580765),
+                        to_limb(0xd42d1ccb29d1235b),
+                        to_limb(0xed8f753821bd1423),
+                        to_limb(0x4eede1c9c89528ca),
                     ]
                 })
             );
             // Add one and test for the result.
-            tmp.add_assign(&Scalar(blst::blst_fr { l: [1, 0, 0, 0] }));
+            tmp.add_assign(&Scalar(blst::blst_fr {
+                l: [to_limb(1), 0, 0, 0],
+            }));
             assert_eq!(
                 tmp,
                 Scalar(blst::blst_fr {
                     l: [
-                        0x437ce7616d580766,
-                        0xd42d1ccb29d1235b,
-                        0xed8f753821bd1423,
-                        0x4eede1c9c89528ca
+                        to_limb(0x437ce7616d580766),
+                        to_limb(0xd42d1ccb29d1235b),
+                        to_limb(0xed8f753821bd1423),
+                        to_limb(0x4eede1c9c89528ca),
                     ]
                 })
             );
             // Add another random number that exercises the reduction.
             tmp.add_assign(&Scalar(blst::blst_fr {
                 l: [
-                    0x946f435944f7dc79,
-                    0xb55e7ee6533a9b9b,
-                    0x1e43b84c2f6194ca,
-                    0x58717ab525463496,
+                    to_limb(0x946f435944f7dc79),
+                    to_limb(0xb55e7ee6533a9b9b),
+                    to_limb(0x1e43b84c2f6194ca),
+                    to_limb(0x58717ab525463496),
                 ],
             }));
             assert_eq!(
                 tmp,
                 Scalar(blst::blst_fr {
                     l: [
-                        0xd7ec2abbb24fe3de,
-                        0x35cdf7ae7d0d62f7,
-                        0xd899557c477cd0e9,
-                        0x3371b52bc43de018
+                        to_limb(0xd7ec2abbb24fe3de),
+                        to_limb(0x35cdf7ae7d0d62f7),
+                        to_limb(0xd899557c477cd0e9),
+                        to_limb(0x3371b52bc43de018),
                     ]
                 })
             );
             // Add one to (r - 1) and test for the result.
             tmp = Scalar(blst::blst_fr {
                 l: [
-                    0xffffffff00000000,
-                    0x53bda402fffe5bfe,
-                    0x3339d80809a1d805,
-                    0x73eda753299d7d48,
+                    to_limb(0xffffffff00000000),
+                    to_limb(0x53bda402fffe5bfe),
+                    to_limb(0x3339d80809a1d805),
+                    to_limb(0x73eda753299d7d48),
                 ],
             });
-            tmp.add_assign(&Scalar(blst::blst_fr { l: [1, 0, 0, 0] }));
+            tmp.add_assign(&Scalar(blst::blst_fr {
+                l: [to_limb(1), 0, 0, 0],
+            }));
             assert!(bool::from(tmp.is_zero()));
             // Add a random number to another one such that the result is r - 1
             tmp = Scalar(blst::blst_fr {
                 l: [
-                    0xade5adacdccb6190,
-                    0xaa21ee0f27db3ccd,
-                    0x2550f4704ae39086,
-                    0x591d1902e7c5ba27,
+                    to_limb(0xade5adacdccb6190),
+                    to_limb(0xaa21ee0f27db3ccd),
+                    to_limb(0x2550f4704ae39086),
+                    to_limb(0x591d1902e7c5ba27),
                 ],
             });
             tmp.add_assign(&Scalar(blst::blst_fr {
                 l: [
-                    0x521a525223349e70,
-                    0xa99bb5f3d8231f31,
-                    0xde8e397bebe477e,
-                    0x1ad08e5041d7c321,
+                    to_limb(0x521a525223349e70),
+                    to_limb(0xa99bb5f3d8231f31),
+                    to_limb(0xde8e397bebe477e),
+                    to_limb(0x1ad08e5041d7c321),
                 ],
             }));
             assert_eq!(
                 tmp,
                 Scalar(blst::blst_fr {
                     l: [
-                        0xffffffff00000000,
-                        0x53bda402fffe5bfe,
-                        0x3339d80809a1d805,
-                        0x73eda753299d7d48
+                        to_limb(0xffffffff00000000),
+                        to_limb(0x53bda402fffe5bfe),
+                        to_limb(0x3339d80809a1d805),
+                        to_limb(0x73eda753299d7d48),
                     ]
                 })
             );
             // Add one to the result and test for it.
-            tmp.add_assign(&Scalar(blst::blst_fr { l: [1, 0, 0, 0] }));
+            tmp.add_assign(&Scalar(blst::blst_fr {
+                l: [to_limb(1), 0, 0, 0],
+            }));
             assert!(bool::from(tmp.is_zero()));
         }
 
@@ -1286,28 +1313,28 @@ mod tests {
             // Test arbitrary subtraction that tests reduction.
             let mut tmp = Scalar(blst::blst_fr {
                 l: [
-                    0x6a68c64b6f735a2b,
-                    0xd5f4d143fe0a1972,
-                    0x37c17f3829267c62,
-                    0xa2f37391f30915c,
+                    to_limb(0x6a68c64b6f735a2b),
+                    to_limb(0xd5f4d143fe0a1972),
+                    to_limb(0x37c17f3829267c62),
+                    to_limb(0xa2f37391f30915c),
                 ],
             });
             tmp.sub_assign(&Scalar(blst::blst_fr {
                 l: [
-                    0xade5adacdccb6190,
-                    0xaa21ee0f27db3ccd,
-                    0x2550f4704ae39086,
-                    0x591d1902e7c5ba27,
+                    to_limb(0xade5adacdccb6190),
+                    to_limb(0xaa21ee0f27db3ccd),
+                    to_limb(0x2550f4704ae39086),
+                    to_limb(0x591d1902e7c5ba27),
                 ],
             }));
             assert_eq!(
                 tmp,
                 Scalar(blst::blst_fr {
                     l: [
-                        0xbc83189d92a7f89c,
-                        0x7f908737d62d38a3,
-                        0x45aa62cfe7e4c3e1,
-                        0x24ffc5896108547d
+                        to_limb(0xbc83189d92a7f89c),
+                        to_limb(0x7f908737d62d38a3),
+                        to_limb(0x45aa62cfe7e4c3e1),
+                        to_limb(0x24ffc5896108547d),
                     ]
                 })
             );
@@ -1315,28 +1342,28 @@ mod tests {
             // Test the opposite subtraction which doesn't test reduction.
             tmp = Scalar(blst::blst_fr {
                 l: [
-                    0xade5adacdccb6190,
-                    0xaa21ee0f27db3ccd,
-                    0x2550f4704ae39086,
-                    0x591d1902e7c5ba27,
+                    to_limb(0xade5adacdccb6190),
+                    to_limb(0xaa21ee0f27db3ccd),
+                    to_limb(0x2550f4704ae39086),
+                    to_limb(0x591d1902e7c5ba27),
                 ],
             });
             tmp.sub_assign(&Scalar(blst::blst_fr {
                 l: [
-                    0x6a68c64b6f735a2b,
-                    0xd5f4d143fe0a1972,
-                    0x37c17f3829267c62,
-                    0xa2f37391f30915c,
+                    to_limb(0x6a68c64b6f735a2b),
+                    to_limb(0xd5f4d143fe0a1972),
+                    to_limb(0x37c17f3829267c62),
+                    to_limb(0xa2f37391f30915c),
                 ],
             }));
             assert_eq!(
                 tmp,
                 Scalar(blst::blst_fr {
                     l: [
-                        0x437ce7616d580765,
-                        0xd42d1ccb29d1235b,
-                        0xed8f753821bd1423,
-                        0x4eede1c9c89528ca
+                        to_limb(0x437ce7616d580765),
+                        to_limb(0xd42d1ccb29d1235b),
+                        to_limb(0xed8f753821bd1423),
+                        to_limb(0x4eede1c9c89528ca),
                     ]
                 })
             );
@@ -1348,10 +1375,10 @@ mod tests {
 
             tmp = Scalar(blst::blst_fr {
                 l: [
-                    0x437ce7616d580765,
-                    0xd42d1ccb29d1235b,
-                    0xed8f753821bd1423,
-                    0x4eede1c9c89528ca,
+                    to_limb(0x437ce7616d580765),
+                    to_limb(0xd42d1ccb29d1235b),
+                    to_limb(0xed8f753821bd1423),
+                    to_limb(0x4eede1c9c89528ca),
                 ],
             });
             tmp.sub_assign(&Scalar(blst::blst_fr { l: [0, 0, 0, 0] }));
@@ -1359,10 +1386,10 @@ mod tests {
                 tmp,
                 Scalar(blst::blst_fr {
                     l: [
-                        0x437ce7616d580765,
-                        0xd42d1ccb29d1235b,
-                        0xed8f753821bd1423,
-                        0x4eede1c9c89528ca
+                        to_limb(0x437ce7616d580765),
+                        to_limb(0xd42d1ccb29d1235b),
+                        to_limb(0xed8f753821bd1423),
+                        to_limb(0x4eede1c9c89528ca),
                     ]
                 })
             );
@@ -1393,27 +1420,27 @@ mod tests {
     fn test_scalar_mul_assign() {
         let mut tmp = Scalar(blst::blst_fr {
             l: [
-                0x6b7e9b8faeefc81a,
-                0xe30a8463f348ba42,
-                0xeff3cb67a8279c9c,
-                0x3d303651bd7c774d,
+                to_limb(0x6b7e9b8faeefc81a),
+                to_limb(0xe30a8463f348ba42),
+                to_limb(0xeff3cb67a8279c9c),
+                to_limb(0x3d303651bd7c774d),
             ],
         });
         tmp.mul_assign(&Scalar(blst::blst_fr {
             l: [
-                0x13ae28e3bc35ebeb,
-                0xa10f4488075cae2c,
-                0x8160e95a853c3b5d,
-                0x5ae3f03b561a841d,
+                to_limb(0x13ae28e3bc35ebeb),
+                to_limb(0xa10f4488075cae2c),
+                to_limb(0x8160e95a853c3b5d),
+                to_limb(0x5ae3f03b561a841d),
             ],
         }));
         assert!(
             tmp == Scalar(blst::blst_fr {
                 l: [
-                    0x23717213ce710f71,
-                    0xdbee1fe53a16e1af,
-                    0xf565d3e1c2a48000,
-                    0x4426507ee75df9d7
+                    to_limb(0x23717213ce710f71),
+                    to_limb(0xdbee1fe53a16e1af),
+                    to_limb(0xf565d3e1c2a48000),
+                    to_limb(0x4426507ee75df9d7),
                 ]
             })
         );
@@ -1468,10 +1495,10 @@ mod tests {
     fn test_scalar_squaring() {
         let a = Scalar(blst::blst_fr {
             l: [
-                0xffffffffffffffff,
-                0xffffffffffffffff,
-                0xffffffffffffffff,
-                0x73eda753299d7d47,
+                to_limb(0xffffffffffffffff),
+                to_limb(0xffffffffffffffff),
+                to_limb(0xffffffffffffffff),
+                to_limb(0x73eda753299d7d47),
             ],
         });
         // assert!(a.is_valid());

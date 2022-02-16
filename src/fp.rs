@@ -13,6 +13,8 @@ use subtle::{Choice, ConditionallySelectable, ConstantTimeEq, CtOption};
 
 use crate::fp2::Fp2;
 
+use crate::to_limb;
+
 // Little-endian non-Montgomery form.
 #[allow(dead_code)]
 const MODULUS: [u64; 6] = [
@@ -38,12 +40,12 @@ const ZERO: Fp = Fp(blst_fp {
 /// R = 2^384 mod p
 const R: Fp = Fp(blst_fp {
     l: [
-        0x7609_0000_0002_fffd,
-        0xebf4_000b_c40c_0002,
-        0x5f48_9857_53c7_58ba,
-        0x77ce_5853_7052_5745,
-        0x5c07_1a97_a256_ec6d,
-        0x15f6_5ec3_fa80_e493,
+        to_limb(0x7609_0000_0002_fffd),
+        to_limb(0xebf4_000b_c40c_0002),
+        to_limb(0x5f48_9857_53c7_58ba),
+        to_limb(0x77ce_5853_7052_5745),
+        to_limb(0x5c07_1a97_a256_ec6d),
+        to_limb(0x15f6_5ec3_fa80_e493),
     ],
 });
 
@@ -51,12 +53,12 @@ const R: Fp = Fp(blst_fp {
 #[allow(dead_code)]
 const R2: Fp = Fp(blst_fp {
     l: [
-        0xf4df_1f34_1c34_1746,
-        0x0a76_e6a6_09d1_04f1,
-        0x8de5_476c_4c95_b6d5,
-        0x67eb_88a9_939d_83c0,
-        0x9a79_3e85_b519_952d,
-        0x1198_8fe5_92ca_e3aa,
+        to_limb(0xf4df_1f34_1c34_1746),
+        to_limb(0x0a76_e6a6_09d1_04f1),
+        to_limb(0x8de5_476c_4c95_b6d5),
+        to_limb(0x67eb_88a9_939d_83c0),
+        to_limb(0x9a79_3e85_b519_952d),
+        to_limb(0x1198_8fe5_92ca_e3aa),
     ],
 });
 
@@ -71,23 +73,23 @@ pub(crate) const FROBENIUS_COEFF_FP2_C1: [Fp; 2] = [
     // Fp(-1)**(((q^0) - 1) / 2)
     Fp(blst_fp {
         l: [
-            0x760900000002fffd,
-            0xebf4000bc40c0002,
-            0x5f48985753c758ba,
-            0x77ce585370525745,
-            0x5c071a97a256ec6d,
-            0x15f65ec3fa80e493,
+            to_limb(0x760900000002fffd),
+            to_limb(0xebf4000bc40c0002),
+            to_limb(0x5f48985753c758ba),
+            to_limb(0x77ce585370525745),
+            to_limb(0x5c071a97a256ec6d),
+            to_limb(0x15f65ec3fa80e493),
         ],
     }),
     // Fp(-1)**(((q^1) - 1) / 2)
     Fp(blst_fp {
         l: [
-            0x43f5fffffffcaaae,
-            0x32b7fff2ed47fffd,
-            0x7e83a49a2e99d69,
-            0xeca8f3318332bb7a,
-            0xef148d1ea0f4c069,
-            0x40ab3263eff0206,
+            to_limb(0x43f5fffffffcaaae),
+            to_limb(0x32b7fff2ed47fffd),
+            to_limb(0x7e83a49a2e99d69),
+            to_limb(0xeca8f3318332bb7a),
+            to_limb(0xef148d1ea0f4c069),
+            to_limb(0x40ab3263eff0206),
         ],
     }),
 ];
@@ -97,12 +99,12 @@ pub const FROBENIUS_COEFF_FP6_C1: [Fp2; 6] = [
     Fp2::new(
         Fp(blst_fp {
             l: [
-                0x760900000002fffd,
-                0xebf4000bc40c0002,
-                0x5f48985753c758ba,
-                0x77ce585370525745,
-                0x5c071a97a256ec6d,
-                0x15f65ec3fa80e493,
+                to_limb(0x760900000002fffd),
+                to_limb(0xebf4000bc40c0002),
+                to_limb(0x5f48985753c758ba),
+                to_limb(0x77ce585370525745),
+                to_limb(0x5c071a97a256ec6d),
+                to_limb(0x15f65ec3fa80e493),
             ],
         }),
         Fp(blst_fp {
@@ -116,12 +118,12 @@ pub const FROBENIUS_COEFF_FP6_C1: [Fp2; 6] = [
         }),
         Fp(blst_fp {
             l: [
-                0xcd03c9e48671f071,
-                0x5dab22461fcda5d2,
-                0x587042afd3851b95,
-                0x8eb60ebe01bacb9e,
-                0x3f97d6e83d050d2,
-                0x18f0206554638741,
+                to_limb(0xcd03c9e48671f071),
+                to_limb(0x5dab22461fcda5d2),
+                to_limb(0x587042afd3851b95),
+                to_limb(0x8eb60ebe01bacb9e),
+                to_limb(0x3f97d6e83d050d2),
+                to_limb(0x18f0206554638741),
             ],
         }),
     ),
@@ -129,12 +131,12 @@ pub const FROBENIUS_COEFF_FP6_C1: [Fp2; 6] = [
     Fp2::new(
         Fp(blst_fp {
             l: [
-                0x30f1361b798a64e8,
-                0xf3b8ddab7ece5a2a,
-                0x16a8ca3ac61577f7,
-                0xc26a2ff874fd029b,
-                0x3636b76660701c6e,
-                0x51ba4ab241b6160,
+                to_limb(0x30f1361b798a64e8),
+                to_limb(0xf3b8ddab7ece5a2a),
+                to_limb(0x16a8ca3ac61577f7),
+                to_limb(0xc26a2ff874fd029b),
+                to_limb(0x3636b76660701c6e),
+                to_limb(0x51ba4ab241b6160),
             ],
         }),
         Fp(blst_fp {
@@ -148,12 +150,12 @@ pub const FROBENIUS_COEFF_FP6_C1: [Fp2; 6] = [
         }),
         Fp(blst_fp {
             l: [
-                0x760900000002fffd,
-                0xebf4000bc40c0002,
-                0x5f48985753c758ba,
-                0x77ce585370525745,
-                0x5c071a97a256ec6d,
-                0x15f65ec3fa80e493,
+                to_limb(0x760900000002fffd),
+                to_limb(0xebf4000bc40c0002),
+                to_limb(0x5f48985753c758ba),
+                to_limb(0x77ce585370525745),
+                to_limb(0x5c071a97a256ec6d),
+                to_limb(0x15f65ec3fa80e493),
             ],
         }),
     ),
@@ -161,12 +163,12 @@ pub const FROBENIUS_COEFF_FP6_C1: [Fp2; 6] = [
     Fp2::new(
         Fp(blst_fp {
             l: [
-                0xcd03c9e48671f071,
-                0x5dab22461fcda5d2,
-                0x587042afd3851b95,
-                0x8eb60ebe01bacb9e,
-                0x3f97d6e83d050d2,
-                0x18f0206554638741,
+                to_limb(0xcd03c9e48671f071),
+                to_limb(0x5dab22461fcda5d2),
+                to_limb(0x587042afd3851b95),
+                to_limb(0x8eb60ebe01bacb9e),
+                to_limb(0x3f97d6e83d050d2),
+                to_limb(0x18f0206554638741),
             ],
         }),
         Fp(blst_fp {
@@ -180,12 +182,12 @@ pub const FROBENIUS_COEFF_FP6_C1: [Fp2; 6] = [
         }),
         Fp(blst_fp {
             l: [
-                0x30f1361b798a64e8,
-                0xf3b8ddab7ece5a2a,
-                0x16a8ca3ac61577f7,
-                0xc26a2ff874fd029b,
-                0x3636b76660701c6e,
-                0x51ba4ab241b6160,
+                to_limb(0x30f1361b798a64e8),
+                to_limb(0xf3b8ddab7ece5a2a),
+                to_limb(0x16a8ca3ac61577f7),
+                to_limb(0xc26a2ff874fd029b),
+                to_limb(0x3636b76660701c6e),
+                to_limb(0x51ba4ab241b6160),
             ],
         }),
     ),
@@ -196,12 +198,12 @@ pub const FROBENIUS_COEFF_FP6_C2: [Fp2; 6] = [
     Fp2::new(
         Fp(blst_fp {
             l: [
-                0x760900000002fffd,
-                0xebf4000bc40c0002,
-                0x5f48985753c758ba,
-                0x77ce585370525745,
-                0x5c071a97a256ec6d,
-                0x15f65ec3fa80e493,
+                to_limb(0x760900000002fffd),
+                to_limb(0xebf4000bc40c0002),
+                to_limb(0x5f48985753c758ba),
+                to_limb(0x77ce585370525745),
+                to_limb(0x5c071a97a256ec6d),
+                to_limb(0x15f65ec3fa80e493),
             ],
         }),
         Fp(blst_fp {
@@ -212,12 +214,12 @@ pub const FROBENIUS_COEFF_FP6_C2: [Fp2; 6] = [
     Fp2::new(
         Fp(blst_fp {
             l: [
-                0x890dc9e4867545c3,
-                0x2af322533285a5d5,
-                0x50880866309b7e2c,
-                0xa20d1b8c7e881024,
-                0x14e4f04fe2db9068,
-                0x14e56d3f1564853a,
+                to_limb(0x890dc9e4867545c3),
+                to_limb(0x2af322533285a5d5),
+                to_limb(0x50880866309b7e2c),
+                to_limb(0xa20d1b8c7e881024),
+                to_limb(0x14e4f04fe2db9068),
+                to_limb(0x14e56d3f1564853a),
             ],
         }),
         Fp(blst_fp {
@@ -228,12 +230,12 @@ pub const FROBENIUS_COEFF_FP6_C2: [Fp2; 6] = [
     Fp2::new(
         Fp(blst_fp {
             l: [
-                0xcd03c9e48671f071,
-                0x5dab22461fcda5d2,
-                0x587042afd3851b95,
-                0x8eb60ebe01bacb9e,
-                0x3f97d6e83d050d2,
-                0x18f0206554638741,
+                to_limb(0xcd03c9e48671f071),
+                to_limb(0x5dab22461fcda5d2),
+                to_limb(0x587042afd3851b95),
+                to_limb(0x8eb60ebe01bacb9e),
+                to_limb(0x3f97d6e83d050d2),
+                to_limb(0x18f0206554638741),
             ],
         }),
         Fp(blst_fp {
@@ -244,12 +246,12 @@ pub const FROBENIUS_COEFF_FP6_C2: [Fp2; 6] = [
     Fp2::new(
         Fp(blst_fp {
             l: [
-                0x43f5fffffffcaaae,
-                0x32b7fff2ed47fffd,
-                0x7e83a49a2e99d69,
-                0xeca8f3318332bb7a,
-                0xef148d1ea0f4c069,
-                0x40ab3263eff0206,
+                to_limb(0x43f5fffffffcaaae),
+                to_limb(0x32b7fff2ed47fffd),
+                to_limb(0x7e83a49a2e99d69),
+                to_limb(0xeca8f3318332bb7a),
+                to_limb(0xef148d1ea0f4c069),
+                to_limb(0x40ab3263eff0206),
             ],
         }),
         Fp(blst_fp {
@@ -260,12 +262,12 @@ pub const FROBENIUS_COEFF_FP6_C2: [Fp2; 6] = [
     Fp2::new(
         Fp(blst_fp {
             l: [
-                0x30f1361b798a64e8,
-                0xf3b8ddab7ece5a2a,
-                0x16a8ca3ac61577f7,
-                0xc26a2ff874fd029b,
-                0x3636b76660701c6e,
-                0x51ba4ab241b6160,
+                to_limb(0x30f1361b798a64e8),
+                to_limb(0xf3b8ddab7ece5a2a),
+                to_limb(0x16a8ca3ac61577f7),
+                to_limb(0xc26a2ff874fd029b),
+                to_limb(0x3636b76660701c6e),
+                to_limb(0x51ba4ab241b6160),
             ],
         }),
         Fp(blst_fp {
@@ -276,12 +278,12 @@ pub const FROBENIUS_COEFF_FP6_C2: [Fp2; 6] = [
     Fp2::new(
         Fp(blst_fp {
             l: [
-                0xecfb361b798dba3a,
-                0xc100ddb891865a2c,
-                0xec08ff1232bda8e,
-                0xd5c13cc6f1ca4721,
-                0x47222a47bf7b5c04,
-                0x110f184e51c5f59,
+                to_limb(0xecfb361b798dba3a),
+                to_limb(0xc100ddb891865a2c),
+                to_limb(0xec08ff1232bda8e),
+                to_limb(0xd5c13cc6f1ca4721),
+                to_limb(0x47222a47bf7b5c04),
+                to_limb(0x110f184e51c5f59),
             ],
         }),
         Fp(blst_fp {
@@ -685,12 +687,12 @@ mod tests {
             -Fp::one(),
             Fp(blst::blst_fp {
                 l: [
-                    0x43f5fffffffcaaae,
-                    0x32b7fff2ed47fffd,
-                    0x7e83a49a2e99d69,
-                    0xeca8f3318332bb7a,
-                    0xef148d1ea0f4c069,
-                    0x40ab3263eff0206,
+                    to_limb(0x43f5fffffffcaaae),
+                    to_limb(0x32b7fff2ed47fffd),
+                    to_limb(0x7e83a49a2e99d69),
+                    to_limb(0xeca8f3318332bb7a),
+                    to_limb(0xef148d1ea0f4c069),
+                    to_limb(0x40ab3263eff0206),
                 ]
             }),
         );
@@ -719,12 +721,12 @@ mod tests {
             // Random number
             let mut tmp = Fp(blst::blst_fp {
                 l: [
-                    0x624434821df92b69,
-                    0x503260c04fd2e2ea,
-                    0xd9df726e0d16e8ce,
-                    0xfbcb39adfd5dfaeb,
-                    0x86b8a22b0c88b112,
-                    0x165a2ed809e4201b,
+                    to_limb(0x624434821df92b69),
+                    to_limb(0x503260c04fd2e2ea),
+                    to_limb(0xd9df726e0d16e8ce),
+                    to_limb(0xfbcb39adfd5dfaeb),
+                    to_limb(0x86b8a22b0c88b112),
+                    to_limb(0x165a2ed809e4201b),
                 ],
             });
             assert!(!bool::from(tmp.is_zero()));
@@ -734,108 +736,108 @@ mod tests {
                 tmp,
                 Fp(blst::blst_fp {
                     l: [
-                        0x624434821df92b69,
-                        0x503260c04fd2e2ea,
-                        0xd9df726e0d16e8ce,
-                        0xfbcb39adfd5dfaeb,
-                        0x86b8a22b0c88b112,
-                        0x165a2ed809e4201b
+                        to_limb(0x624434821df92b69),
+                        to_limb(0x503260c04fd2e2ea),
+                        to_limb(0xd9df726e0d16e8ce),
+                        to_limb(0xfbcb39adfd5dfaeb),
+                        to_limb(0x86b8a22b0c88b112),
+                        to_limb(0x165a2ed809e4201b),
                     ]
                 })
             );
             // Add one and test for the result.
             tmp.add_assign(&Fp(blst::blst_fp {
-                l: [1, 0, 0, 0, 0, 0],
+                l: [to_limb(1), 0, 0, 0, 0, 0],
             }));
             assert_eq!(
                 tmp,
                 Fp(blst::blst_fp {
                     l: [
-                        0x624434821df92b6a,
-                        0x503260c04fd2e2ea,
-                        0xd9df726e0d16e8ce,
-                        0xfbcb39adfd5dfaeb,
-                        0x86b8a22b0c88b112,
-                        0x165a2ed809e4201b
+                        to_limb(0x624434821df92b6a),
+                        to_limb(0x503260c04fd2e2ea),
+                        to_limb(0xd9df726e0d16e8ce),
+                        to_limb(0xfbcb39adfd5dfaeb),
+                        to_limb(0x86b8a22b0c88b112),
+                        to_limb(0x165a2ed809e4201b),
                     ]
                 })
             );
             // Add another random number that exercises the reduction.
             tmp.add_assign(&Fp(blst::blst_fp {
                 l: [
-                    0x374d8f8ea7a648d8,
-                    0xe318bb0ebb8bfa9b,
-                    0x613d996f0a95b400,
-                    0x9fac233cb7e4fef1,
-                    0x67e47552d253c52,
-                    0x5c31b227edf25da,
+                    to_limb(0x374d8f8ea7a648d8),
+                    to_limb(0xe318bb0ebb8bfa9b),
+                    to_limb(0x613d996f0a95b400),
+                    to_limb(0x9fac233cb7e4fef1),
+                    to_limb(0x67e47552d253c52),
+                    to_limb(0x5c31b227edf25da),
                 ],
             }));
             assert_eq!(
                 tmp,
                 Fp(blst::blst_fp {
                     l: [
-                        0xdf92c410c59fc997,
-                        0x149f1bd05a0add85,
-                        0xd3ec393c20fba6ab,
-                        0x37001165c1bde71d,
-                        0x421b41c9f662408e,
-                        0x21c38104f435f5b
+                        to_limb(0xdf92c410c59fc997),
+                        to_limb(0x149f1bd05a0add85),
+                        to_limb(0xd3ec393c20fba6ab),
+                        to_limb(0x37001165c1bde71d),
+                        to_limb(0x421b41c9f662408e),
+                        to_limb(0x21c38104f435f5b),
                     ]
                 })
             );
             // Add one to (q - 1) and test for the result.
             tmp = Fp(blst::blst_fp {
                 l: [
-                    0xb9feffffffffaaaa,
-                    0x1eabfffeb153ffff,
-                    0x6730d2a0f6b0f624,
-                    0x64774b84f38512bf,
-                    0x4b1ba7b6434bacd7,
-                    0x1a0111ea397fe69a,
+                    to_limb(0xb9feffffffffaaaa),
+                    to_limb(0x1eabfffeb153ffff),
+                    to_limb(0x6730d2a0f6b0f624),
+                    to_limb(0x64774b84f38512bf),
+                    to_limb(0x4b1ba7b6434bacd7),
+                    to_limb(0x1a0111ea397fe69a),
                 ],
             });
             tmp.add_assign(&Fp(blst::blst_fp {
-                l: [1, 0, 0, 0, 0, 0],
+                l: [to_limb(1), 0, 0, 0, 0, 0],
             }));
             assert!(bool::from(tmp.is_zero()));
             // Add a random number to another one such that the result is q - 1
             tmp = Fp(blst::blst_fp {
                 l: [
-                    0x531221a410efc95b,
-                    0x72819306027e9717,
-                    0x5ecefb937068b746,
-                    0x97de59cd6feaefd7,
-                    0xdc35c51158644588,
-                    0xb2d176c04f2100,
+                    to_limb(0x531221a410efc95b),
+                    to_limb(0x72819306027e9717),
+                    to_limb(0x5ecefb937068b746),
+                    to_limb(0x97de59cd6feaefd7),
+                    to_limb(0xdc35c51158644588),
+                    to_limb(0xb2d176c04f2100),
                 ],
             });
             tmp.add_assign(&Fp(blst::blst_fp {
                 l: [
-                    0x66ecde5bef0fe14f,
-                    0xac2a6cf8aed568e8,
-                    0x861d70d86483edd,
-                    0xcc98f1b7839a22e8,
-                    0x6ee5e2a4eae7674e,
-                    0x194e40737930c599,
+                    to_limb(0x66ecde5bef0fe14f),
+                    to_limb(0xac2a6cf8aed568e8),
+                    to_limb(0x861d70d86483edd),
+                    to_limb(0xcc98f1b7839a22e8),
+                    to_limb(0x6ee5e2a4eae7674e),
+                    to_limb(0x194e40737930c599),
                 ],
             }));
             assert_eq!(
                 tmp,
                 Fp(blst::blst_fp {
                     l: [
-                        0xb9feffffffffaaaa,
-                        0x1eabfffeb153ffff,
-                        0x6730d2a0f6b0f624,
-                        0x64774b84f38512bf,
-                        0x4b1ba7b6434bacd7,
-                        0x1a0111ea397fe69a
+                        to_limb(0xb9feffffffffaaaa),
+                        to_limb(0x1eabfffeb153ffff),
+                        to_limb(0x6730d2a0f6b0f624),
+                        to_limb(0x64774b84f38512bf),
+                        to_limb(0x4b1ba7b6434bacd7),
+                        to_limb(0x1a0111ea397fe69a),
                     ]
                 })
             );
             // Add one to the result and test for it.
             tmp.add_assign(&Fp(blst::blst_fp {
-                l: [1, 0, 0, 0, 0, 0],
+                l: [to_limb(1), 0, 0, 0, 0, 0],
             }));
             assert!(bool::from(tmp.is_zero()));
         }
@@ -873,34 +875,34 @@ mod tests {
             // Test arbitrary subtraction that tests reduction.
             let mut tmp = Fp(blst::blst_fp {
                 l: [
-                    0x531221a410efc95b,
-                    0x72819306027e9717,
-                    0x5ecefb937068b746,
-                    0x97de59cd6feaefd7,
-                    0xdc35c51158644588,
-                    0xb2d176c04f2100,
+                    to_limb(0x531221a410efc95b),
+                    to_limb(0x72819306027e9717),
+                    to_limb(0x5ecefb937068b746),
+                    to_limb(0x97de59cd6feaefd7),
+                    to_limb(0xdc35c51158644588),
+                    to_limb(0xb2d176c04f2100),
                 ],
             });
             tmp.sub_assign(&Fp(blst::blst_fp {
                 l: [
-                    0x98910d20877e4ada,
-                    0x940c983013f4b8ba,
-                    0xf677dc9b8345ba33,
-                    0xbef2ce6b7f577eba,
-                    0xe1ae288ac3222c44,
-                    0x5968bb602790806,
+                    to_limb(0x98910d20877e4ada),
+                    to_limb(0x940c983013f4b8ba),
+                    to_limb(0xf677dc9b8345ba33),
+                    to_limb(0xbef2ce6b7f577eba),
+                    to_limb(0xe1ae288ac3222c44),
+                    to_limb(0x5968bb602790806),
                 ],
             }));
             assert_eq!(
                 tmp,
                 Fp(blst::blst_fp {
                     l: [
-                        0x748014838971292c,
-                        0xfd20fad49fddde5c,
-                        0xcf87f198e3d3f336,
-                        0x3d62d6e6e41883db,
-                        0x45a3443cd88dc61b,
-                        0x151d57aaf755ff94
+                        to_limb(0x748014838971292c),
+                        to_limb(0xfd20fad49fddde5c),
+                        to_limb(0xcf87f198e3d3f336),
+                        to_limb(0x3d62d6e6e41883db),
+                        to_limb(0x45a3443cd88dc61b),
+                        to_limb(0x151d57aaf755ff94),
                     ]
                 })
             );
@@ -908,34 +910,34 @@ mod tests {
             // Test the opposite subtraction which doesn't test reduction.
             tmp = Fp(blst::blst_fp {
                 l: [
-                    0x98910d20877e4ada,
-                    0x940c983013f4b8ba,
-                    0xf677dc9b8345ba33,
-                    0xbef2ce6b7f577eba,
-                    0xe1ae288ac3222c44,
-                    0x5968bb602790806,
+                    to_limb(0x98910d20877e4ada),
+                    to_limb(0x940c983013f4b8ba),
+                    to_limb(0xf677dc9b8345ba33),
+                    to_limb(0xbef2ce6b7f577eba),
+                    to_limb(0xe1ae288ac3222c44),
+                    to_limb(0x5968bb602790806),
                 ],
             });
             tmp.sub_assign(&Fp(blst::blst_fp {
                 l: [
-                    0x531221a410efc95b,
-                    0x72819306027e9717,
-                    0x5ecefb937068b746,
-                    0x97de59cd6feaefd7,
-                    0xdc35c51158644588,
-                    0xb2d176c04f2100,
+                    to_limb(0x531221a410efc95b),
+                    to_limb(0x72819306027e9717),
+                    to_limb(0x5ecefb937068b746),
+                    to_limb(0x97de59cd6feaefd7),
+                    to_limb(0xdc35c51158644588),
+                    to_limb(0xb2d176c04f2100),
                 ],
             }));
             assert_eq!(
                 tmp,
                 Fp(blst::blst_fp {
                     l: [
-                        0x457eeb7c768e817f,
-                        0x218b052a117621a3,
-                        0x97a8e10812dd02ed,
-                        0x2714749e0f6c8ee3,
-                        0x57863796abde6bc,
-                        0x4e3ba3f4229e706
+                        to_limb(0x457eeb7c768e817f),
+                        to_limb(0x218b052a117621a3),
+                        to_limb(0x97a8e10812dd02ed),
+                        to_limb(0x2714749e0f6c8ee3),
+                        to_limb(0x57863796abde6bc),
+                        to_limb(0x4e3ba3f4229e706),
                     ]
                 })
             );
@@ -947,12 +949,12 @@ mod tests {
 
             tmp = Fp(blst::blst_fp {
                 l: [
-                    0x98910d20877e4ada,
-                    0x940c983013f4b8ba,
-                    0xf677dc9b8345ba33,
-                    0xbef2ce6b7f577eba,
-                    0xe1ae288ac3222c44,
-                    0x5968bb602790806,
+                    to_limb(0x98910d20877e4ada),
+                    to_limb(0x940c983013f4b8ba),
+                    to_limb(0xf677dc9b8345ba33),
+                    to_limb(0xbef2ce6b7f577eba),
+                    to_limb(0xe1ae288ac3222c44),
+                    to_limb(0x5968bb602790806),
                 ],
             });
             tmp.sub_assign(&Fp::from(0));
@@ -960,12 +962,12 @@ mod tests {
                 tmp,
                 Fp(blst::blst_fp {
                     l: [
-                        0x98910d20877e4ada,
-                        0x940c983013f4b8ba,
-                        0xf677dc9b8345ba33,
-                        0xbef2ce6b7f577eba,
-                        0xe1ae288ac3222c44,
-                        0x5968bb602790806
+                        to_limb(0x98910d20877e4ada),
+                        to_limb(0x940c983013f4b8ba),
+                        to_limb(0xf677dc9b8345ba33),
+                        to_limb(0xbef2ce6b7f577eba),
+                        to_limb(0xe1ae288ac3222c44),
+                        to_limb(0x5968bb602790806),
                     ]
                 })
             );
@@ -997,31 +999,31 @@ mod tests {
         assert_eq!(
             Fp(blst::blst_fp {
                 l: [
-                    0xcc6200000020aa8a,
-                    0x422800801dd8001a,
-                    0x7f4f5e619041c62c,
-                    0x8a55171ac70ed2ba,
-                    0x3f69cc3a3d07d58b,
-                    0xb972455fd09b8ef,
+                    to_limb(0xcc6200000020aa8a),
+                    to_limb(0x422800801dd8001a),
+                    to_limb(0x7f4f5e619041c62c),
+                    to_limb(0x8a55171ac70ed2ba),
+                    to_limb(0x3f69cc3a3d07d58b),
+                    to_limb(0xb972455fd09b8ef),
                 ]
             }) * Fp(blst::blst_fp {
                 l: [
-                    0x329300000030ffcf,
-                    0x633c00c02cc40028,
-                    0xbef70d925862a942,
-                    0x4f7fa2a82a963c17,
-                    0xdf1eb2575b8bc051,
-                    0x1162b680fb8e9566,
+                    to_limb(0x329300000030ffcf),
+                    to_limb(0x633c00c02cc40028),
+                    to_limb(0xbef70d925862a942),
+                    to_limb(0x4f7fa2a82a963c17),
+                    to_limb(0xdf1eb2575b8bc051),
+                    to_limb(0x1162b680fb8e9566),
                 ]
             }),
             Fp(blst::blst_fp {
                 l: [
-                    0x9dc4000001ebfe14,
-                    0x2850078997b00193,
-                    0xa8197f1abb4d7bf,
-                    0xc0309573f4bfe871,
-                    0xf48d0923ffaf7620,
-                    0x11d4b58c7a926e66
+                    to_limb(0x9dc4000001ebfe14),
+                    to_limb(0x2850078997b00193),
+                    to_limb(0xa8197f1abb4d7bf),
+                    to_limb(0xc0309573f4bfe871),
+                    to_limb(0xf48d0923ffaf7620),
+                    to_limb(0x11d4b58c7a926e66),
                 ]
             })
         );
@@ -1076,12 +1078,12 @@ mod tests {
     fn test_fp_squaring() {
         let a = Fp(blst::blst_fp {
             l: [
-                0xffffffffffffffff,
-                0xffffffffffffffff,
-                0xffffffffffffffff,
-                0xffffffffffffffff,
-                0xffffffffffffffff,
-                0x19ffffffffffffff,
+                to_limb(0xffffffffffffffff),
+                to_limb(0xffffffffffffffff),
+                to_limb(0xffffffffffffffff),
+                to_limb(0xffffffffffffffff),
+                to_limb(0xffffffffffffffff),
+                to_limb(0x19ffffffffffffff),
             ],
         });
         assert!(!bool::from(a.is_zero()));
@@ -1226,12 +1228,12 @@ mod tests {
         }
         // a = 4
         let a = Fp::from_raw_unchecked([
-            0xaa27_0000_000c_fff3,
-            0x53cc_0032_fc34_000a,
-            0x478f_e97a_6b0a_807f,
-            0xb1d3_7ebe_e6ba_24d7,
-            0x8ec9_733b_bf78_ab2f,
-            0x09d6_4551_3d83_de7e,
+            to_limb(0xaa27_0000_000c_fff3),
+            to_limb(0x53cc_0032_fc34_000a),
+            to_limb(0x478f_e97a_6b0a_807f),
+            to_limb(0xb1d3_7ebe_e6ba_24d7),
+            to_limb(0x8ec9_733b_bf78_ab2f),
+            to_limb(0x09d6_4551_3d83_de7e),
         ]);
 
         assert_eq!(
@@ -1239,12 +1241,12 @@ mod tests {
             -a.sqrt().unwrap(),
             // 2
             Fp::from_raw_unchecked([
-                0x3213_0000_0006_554f,
-                0xb93c_0018_d6c4_0005,
-                0x5760_5e0d_b0dd_bb51,
-                0x8b25_6521_ed1f_9bcb,
-                0x6cf2_8d79_0162_2c03,
-                0x11eb_ab9d_bb81_e28c,
+                to_limb(0x3213_0000_0006_554f),
+                to_limb(0xb93c_0018_d6c4_0005),
+                to_limb(0x5760_5e0d_b0dd_bb51),
+                to_limb(0x8b25_6521_ed1f_9bcb),
+                to_limb(0x6cf2_8d79_0162_2c03),
+                to_limb(0x11eb_ab9d_bb81_e28c),
             ])
         );
     }
@@ -1377,20 +1379,20 @@ mod tests {
     #[test]
     fn test_inversion() {
         let a = Fp::from_raw_unchecked([
-            0x43b4_3a50_78ac_2076,
-            0x1ce0_7630_46f8_962b,
-            0x724a_5276_486d_735c,
-            0x6f05_c2a6_282d_48fd,
-            0x2095_bd5b_b4ca_9331,
-            0x03b3_5b38_94b0_f7da,
+            to_limb(0x43b4_3a50_78ac_2076),
+            to_limb(0x1ce0_7630_46f8_962b),
+            to_limb(0x724a_5276_486d_735c),
+            to_limb(0x6f05_c2a6_282d_48fd),
+            to_limb(0x2095_bd5b_b4ca_9331),
+            to_limb(0x03b3_5b38_94b0_f7da),
         ]);
         let b = Fp::from_raw_unchecked([
-            0x69ec_d704_0952_148f,
-            0x985c_cc20_2219_0f55,
-            0xe19b_ba36_a9ad_2f41,
-            0x19bb_16c9_5219_dbd8,
-            0x14dc_acfd_fb47_8693,
-            0x115f_f58a_fff9_a8e1,
+            to_limb(0x69ec_d704_0952_148f),
+            to_limb(0x985c_cc20_2219_0f55),
+            to_limb(0xe19b_ba36_a9ad_2f41),
+            to_limb(0x19bb_16c9_5219_dbd8),
+            to_limb(0x14dc_acfd_fb47_8693),
+            to_limb(0x115f_f58a_fff9_a8e1),
         ]);
 
         assert_eq!(a.invert().unwrap(), b);
